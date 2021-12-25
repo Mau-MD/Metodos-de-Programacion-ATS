@@ -1,52 +1,58 @@
 import java.util.Random;
-import java.util.Scanner;
 
-public class Guess extends GameLogic {
+public class Guess {
 
-  private static final int upperBound = 30;
+  private final int MAX_NUMBER = 100;
 
-  @Override
-  public void play(User user, float amount) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Dentro de este juego tendras que adivinar un numero entre 1 y " + upperBound);
-    int answer = new Random().nextInt(upperBound) + 1;
+  Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
-    boolean isGuessed = false;
-    int attempts = 0;
+  private int numberToGuess;
+  private int tries = 0;
 
-    while (!isGuessed) {
+  private float bet;
+  private User user;
 
-      Util.clearConsole();
+  public Guess(User user, float bet) {
+    this.bet = bet;
+    this.user = user;
+    numberToGuess = new Random().nextInt(MAX_NUMBER) + 1;
+  }
 
-      System.out.println(Color.ANSI_CYAN + "Ingresa tu numero: " + Color.ANSI_RESET);
-      int num = scanner.nextInt();
+  public void play(int number) {
 
-      attempts++;
-
-      if (num == answer) {
-        isGuessed = true;
-      } else if (num > answer) {
-        System.out.println(Color.ANSI_YELLOW + "El numero que ingresaste es mayor que el numero que estaba pensando"
-            + Color.ANSI_RESET);
-      } else {
-        System.out.println(Color.ANSI_YELLOW + "El numero que ingresaste es menor que el numero que estaba pensando"
-            + Color.ANSI_RESET);
-      }
+    if (status == Game.GameStatus.NOT_STARTED) {
+      status = Game.GameStatus.PLAYING;
     }
 
-    System.out.println("Felicidades, adivinaste el numero en " + attempts + " intentos");
+    if (status == Game.GameStatus.COMPLETED) {
+      System.out.println("El juego ya ha terminado");
+      return;
+    }
 
-    if (attempts == 1)
-      Game.handleWin(user, amount * 3.0f);
-    else if (attempts == 2)
-      Game.handleWin(user, amount * 2.5f);
-    else if (attempts == 3)
-      Game.handleWin(user, amount * 2.0f);
-    else if (attempts >= 4 && attempts <= 6)
-      Game.handleWin(user, amount * 1.5f);
-    else
-      Game.handleLose(user, amount);
+    tries++;
 
-    Util.clearConsole();
+    if (number == numberToGuess) {
+      finishGame();
+    } else if (number > numberToGuess) {
+      System.out.println("El numero es mas pequeño");
+    } else {
+      System.out.println("El numero es mas grande");
+    }
   }
+
+  public void finishGame() {
+    status = Game.GameStatus.COMPLETED;
+    if (tries == 1) {
+      Game.handleWin(user, bet * 3.0f);
+    } else if (tries == 2) {
+      Game.handleWin(user, bet * 2.5f);
+    } else if (tries == 3) {
+      Game.handleWin(user, bet * 2.0f);
+    } else if (tries >= 4 && tries <= 6) {
+      Game.handleWin(user, bet * 1.5f);
+    } else {
+      Game.handleLose(user, bet);
+    }
+  }
+
 }

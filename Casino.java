@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// TODO: Siempre preguntar si quiere volver a jugar
+
 public class Casino {
 
   public static void handleGame(User user) {
@@ -35,12 +37,48 @@ public class Casino {
       float bet = Game.handleBet(user);
 
       switch (choice) {
+        case 1:
+          Slot slot = new Slot(user, bet);
+          // Show Instructions
+          System.out.println(Color.ANSI_CYAN
+              + "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes."
+              + Color.ANSI_RESET);
+          while (slot.status != Game.GameStatus.COMPLETED) {
+            slot.play();
+          }
+          break;
+        case 2:
+          Blackjack blackjack = new Blackjack(user, bet);
+          // Show Instructions
+          System.out.println("\n" + Color.ANSI_CYAN
+              + "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!"
+              + Color.ANSI_RESET);
+          while (blackjack.status != Game.GameStatus.COMPLETED) {
+            blackjack.play();
+            // Ask if the user wants to play another round
+            System.out.println("\n" + Color.ANSI_CYAN + "¿Deseas jugar otra ronda? (y/n)\n" + Color.ANSI_RESET);
+            String ans = scanner.next();
+            if (ans.equals("n")) {
+              blackjack.finishGame();
+              break;
+            }
+          }
+          break;
         case 3:
-          Guess game = new Guess();
-          game.play(user, bet);
+          Guess guess = new Guess(user, bet);
+          // Show Instructions
+          System.out.println("\n" + Color.ANSI_CYAN
+              + "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!"
+              + Color.ANSI_RESET);
+
+          while (guess.status != Game.GameStatus.COMPLETED) {
+            // Ask for a number
+            System.out.println("\n" + Color.ANSI_CYAN + "Escribe un numero entre 1 y 100" + Color.ANSI_RESET);
+            int number = scanner.nextInt();
+            guess.play(number);
+          }
           break;
       }
-
     }
   }
 

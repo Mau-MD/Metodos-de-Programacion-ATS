@@ -5,6 +5,10 @@ public class Game {
 
   private static final String[] loserStrings = new String[] { "1", "2", "3", "4", "5" };
 
+  public static enum GameStatus {
+    NOT_STARTED, PLAYING, COMPLETED
+  }
+
   public static float handleBet(User user) {
 
     Scanner scanner = new Scanner(System.in);
@@ -37,8 +41,12 @@ public class Game {
 
   public static void handleLose(User user, float amount) {
     user.removeBalance(amount);
-    System.out.println(Color.ANSI_RED + "Lo siento, has perdido " + Color.ANSI_RED + amount + Color.ANSI_RESET);
+    System.out.println(Color.ANSI_RED + "Lo siento, has perdido " + amount + Color.ANSI_RESET);
     makeLoserSentence();
+  }
+
+  public static void handleDraw() {
+    System.out.println(Color.ANSI_YELLOW + "Empate!" + Color.ANSI_RESET);
   }
 
   public static void makeLoserSentence() {
