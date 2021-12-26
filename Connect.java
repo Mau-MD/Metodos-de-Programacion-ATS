@@ -1,7 +1,5 @@
 import java.util.Random;
 
-// TODO: change matrix to binary
-
 public class Connect {
 
   Game.GameStatus status = Game.GameStatus.NOT_STARTED;
@@ -79,7 +77,7 @@ public class Connect {
   public void finishGame(Player winner) {
     status = Game.GameStatus.COMPLETED;
     if (winner == Player.USER) {
-      Game.handleWin(user, bet * 2.0f);
+      Game.handleWin(user, bet * 2.0f, bet);
     }
     if (winner == Player.COMPUTER) {
       Game.handleLose(user, bet);

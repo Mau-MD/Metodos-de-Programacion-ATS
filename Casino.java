@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Casino {
 
-  public static void handleGame(User user) {
+  static Scanner scanner = new Scanner(System.in);
 
-    Scanner scanner = new Scanner(System.in);
+  public static void handleGame(User user) {
 
     int choice = 0;
     boolean notAvailable = false;
@@ -23,9 +23,13 @@ public class Casino {
       System.out.println("4. Conecta 4");
       System.out.println("5. Salir");
 
+      System.out.print(Color.ANSI_YELLOW + "\nIngresa tu opcion: " + Color.ANSI_RESET);
+
       choice = scanner.nextInt();
 
       Util.clearConsole();
+
+      notAvailable = false;
 
       if (choice == 5)
         return;
@@ -39,20 +43,20 @@ public class Casino {
       switch (choice) {
         case 1:
           Slot slot = new Slot(user, bet);
-          // Show Instructions
-          System.out.println(Color.ANSI_CYAN
-              + "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes."
-              + Color.ANSI_RESET);
+
+          Game.handleInstructions("Maquina tragamonedas",
+              "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes.");
+
           while (slot.status != Game.GameStatus.COMPLETED) {
             slot.play();
           }
           break;
         case 2:
           Blackjack blackjack = new Blackjack(user, bet);
-          // Show Instructions
-          System.out.println("\n" + Color.ANSI_CYAN
-              + "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!"
-              + Color.ANSI_RESET);
+
+          Game.handleInstructions("Blackjack",
+              "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!");
+
           while (blackjack.status != Game.GameStatus.COMPLETED) {
             blackjack.play();
             // Ask if the user wants to play another round
@@ -67,9 +71,8 @@ public class Casino {
         case 3:
           Guess guess = new Guess(user, bet);
           // Show Instructions
-          System.out.println("\n" + Color.ANSI_CYAN
-              + "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!"
-              + Color.ANSI_RESET);
+          Game.handleInstructions("Adivina adivinador",
+              "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!");
 
           while (guess.status != Game.GameStatus.COMPLETED) {
             // Ask for a number
@@ -81,9 +84,9 @@ public class Casino {
         case 4:
           Connect connect4 = new Connect(user, bet);
           // Show Instructions
-          System.out.println("\n" + Color.ANSI_CYAN
-              + "El juego consiste en un tablero de 7 columnas y 6 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!"
-              + Color.ANSI_RESET);
+          Game.handleInstructions("Conecta 4",
+              "El juego consiste en un tablero de 7 columnas y 6 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!");
+
           while (connect4.status != Game.GameStatus.COMPLETED) {
             System.out.println("Ingresa la columna donde quieres colocar tu ficha");
             int column = scanner.nextInt();
@@ -96,7 +99,7 @@ public class Casino {
 
   public static void handleMenu(User user) {
 
-    Scanner scanner = new Scanner(System.in);
+    Util.clearConsole();
 
     int choice = 0;
     boolean invalidChoice = false;
@@ -104,15 +107,16 @@ public class Casino {
     while (true) {
 
       if (invalidChoice)
-        System.out.println(Color.ANSI_RED + "Opcion invalida" + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_RED + "La opcion que elegiste es invalida" + Color.ANSI_RESET);
       System.out.println("\n" + Color.ANSI_CYAN + "Elige la opcion que desees\n" + Color.ANSI_RESET);
       System.out.println("1. Jugar");
       System.out.println("2. Checar saldo");
       System.out.println("3. Salir");
-      System.out.print("\nIngresa tu opcion: ");
+      System.out.print(Color.ANSI_YELLOW + "\nIngresa tu opcion: " + Color.ANSI_RESET);
       choice = scanner.nextInt();
 
       Util.clearConsole();
+      invalidChoice = false;
 
       switch (choice) {
         case 1:
@@ -120,32 +124,34 @@ public class Casino {
           break;
         case 2:
           System.out.println("\nTu saldo es: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET);
+          System.out.println("Presiona cualquier tecla para confirmar...");
+          scanner.next();
+          Util.clearConsole();
           break;
         case 3:
           System.out.println("\nGracias por jugar!");
           System.exit(0);
+          scanner.close();
           break;
         default:
-
           invalidChoice = true;
           break;
       }
     }
-
   }
 
   public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
+    Util.clearConsole();
 
     System.out.println(Color.ANSI_BLUE + "Ingresa tu nombre de usuario:" + Color.ANSI_RESET);
     String username = scanner.nextLine();
 
     Util.clearConsole();
 
-    System.out.println("--------------------");
-    System.out.println(Color.ANSI_RED + "Bienvenido, " + username + "!" + Color.ANSI_RESET);
-    System.out.println("--------------------");
+    System.out.println("----------------------------------------");
+    System.out.println(Color.ANSI_RED + "Bienvenido, " + username + " al Casino ATS!" + Color.ANSI_RESET);
+    System.out.println("----------------------------------------");
 
     float balance;
 
@@ -158,5 +164,6 @@ public class Casino {
     User user = new User(username, balance);
 
     handleMenu(user);
+
   }
 }

@@ -7,9 +7,7 @@ public class Slot {
   private float bet;
   private User user;
 
-  private int index1;
-  private int index2;
-  private int index3;
+  private int[] indexes = new int[3];
 
   private final String[] words = new String[] {
       "cerezas", "naranjas", "ciruelas", "campanas", "melones", "barras" };
@@ -19,15 +17,50 @@ public class Slot {
     this.user = user;
   }
 
+  private final int DELAY_BETWEEN_WORDS_MS = 1000;
+  private final int DELAY_BETWEEN_SLOTS_MS = 100;
+
   public void play() {
+
+    Util.clearConsole();
+
     Random random = new Random();
 
-    index1 = random.nextInt(words.length);
-    index2 = random.nextInt(words.length);
-    index3 = random.nextInt(words.length);
+    indexes[0] = random.nextInt(words.length);
+    indexes[1] = random.nextInt(words.length);
+    indexes[2] = random.nextInt(words.length);
 
-    // Show words
-    System.out.println(Color.ANSI_CYAN + words[index1] + " " + words[index2] + " " + words[index3] + Color.ANSI_RESET);
+    int wordsShown = 0;
+
+    Stopwatch showWordStopwatch = new Stopwatch();
+    Stopwatch showRandomSloStopwatch = new Stopwatch();
+
+    showWordStopwatch.start();
+    showRandomSloStopwatch.start();
+
+    while (wordsShown < 3) {
+
+      if (showWordStopwatch.getElapsedTime() > DELAY_BETWEEN_WORDS_MS) {
+        wordsShown++;
+        showWordStopwatch.reset();
+        showWordStopwatch.start();
+      }
+
+      if (showRandomSloStopwatch.getElapsedTime() > DELAY_BETWEEN_SLOTS_MS) {
+        Util.clearConsole();
+        System.out.print("| " + Color.ANSI_BLUE);
+        for (int i = 0; i < 3; i++) {
+          int index = random.nextInt(words.length);
+          // If we have already shown this word, don't show it randomly
+          if (i < wordsShown) {
+            index = indexes[i];
+          }
+          System.out.print(words[index] + Color.ANSI_RESET + " | " + Color.ANSI_BLUE);
+        }
+        showRandomSloStopwatch.reset();
+        showRandomSloStopwatch.start();
+      }
+    }
 
     finishGame();
   }
@@ -35,10 +68,10 @@ public class Slot {
   public void finishGame() {
     status = Game.GameStatus.COMPLETED;
 
-    if (index1 == index2 && index2 == index3) {
-      Game.handleWin(user, bet * 3.0f);
-    } else if (index1 == index2 || index2 == index3) {
-      Game.handleWin(user, bet * 2.0f);
+    if (indexes[0] == indexes[1] && indexes[1] == indexes[2]) {
+      Game.handleWin(user, bet * 3.0f, bet);
+    } else if (indexes[0] == indexes[1] || indexes[1] == indexes[2]) {
+      Game.handleWin(user, bet * 2.0f, bet);
     } else {
       Game.handleLose(user, bet);
     }
