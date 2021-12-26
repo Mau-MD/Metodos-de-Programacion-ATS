@@ -36,9 +36,9 @@ public class PlayHistory {
       if (play.status == PlayInfo.Status.WIN) {
         System.out.println(Color.ANSI_GREEN + play.game + " - Ganó: " + play.bet + "$" + Color.ANSI_RESET);
       } else if (play.status == PlayInfo.Status.LOSE) {
-        System.out.println(Color.ANSI_RED + play.game + "- Perdió: " + play.bet + "$" + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_RED + play.game + " - Perdió: " + play.bet + "$" + Color.ANSI_RESET);
       } else {
-        System.out.println(Color.ANSI_YELLOW + play.game + "- Empató." + Color.ANSI_RESET);
+        System.out.println(Color.ANSI_YELLOW + play.game + " - Empató." + Color.ANSI_RESET);
       }
     }
   }

@@ -20,6 +20,9 @@ public class Connect {
   private float bet;
   private User user;
 
+  private char userToken = '♥';
+  private char computerToken = '♠';
+
   private ConnectMode mode = ConnectMode.NORMAL;
 
   private char[][] board = new char[ROWS][COLS];
@@ -31,10 +34,26 @@ public class Connect {
   }
 
   public Connect(User user, float bet, ConnectMode mode) {
+    this.mode = mode;
     this.bet = bet;
     this.user = user;
-    this.mode = mode;
     initBoard();
+  }
+
+  public void setToken(boolean heartToken) {
+    if (heartToken) {
+      userToken = '♥';
+      computerToken = '♠';
+    } else {
+      userToken = '♠';
+      computerToken = '♥';
+    }
+  }
+
+  public void init() {
+    int computerColumn = new Random().nextInt(COLS);
+    placePiece(computerColumn, Player.COMPUTER);
+    drawBoard();
   }
 
   public void play(int column) {
@@ -48,6 +67,7 @@ public class Connect {
     }
 
     if (status == Game.GameStatus.NOT_STARTED) {
+
       status = Game.GameStatus.PLAYING;
     }
 
@@ -63,6 +83,9 @@ public class Connect {
 
     placePiece(column, Player.USER);
 
+    if (status == Game.GameStatus.COMPLETED)
+      return;
+
     int computerColumn = random.nextInt(COLS);
     while (board[0][computerColumn] != ' ') {
       computerColumn = random.nextInt(COLS);
@@ -71,21 +94,20 @@ public class Connect {
     placePiece(computerColumn, Player.COMPUTER);
 
     drawBoard();
-
-    Player winner = checkWinner();
-    if (winner != Player.NONE) {
-      finishGame(winner);
-    }
   }
 
   public void finishGame(Player winner) {
+    // Show final state
+    drawBoard();
     status = Game.GameStatus.COMPLETED;
     if (winner == Player.USER) {
       Game.handleWin(user, bet, 2, NAME);
-    }
-    if (winner == Player.COMPUTER) {
+    } else if (winner == Player.COMPUTER) {
       Game.handleLose(user, bet, NAME);
+    } else {
+      Game.handleDraw(user, NAME);
     }
+
   }
 
   // We can have an array storing the number of pieces in each column to avoid the
@@ -97,6 +119,10 @@ public class Connect {
         break;
       }
     }
+    Player winner = checkWinner();
+    if (winner != Player.NONE) {
+      finishGame(winner);
+    }
   }
 
   public void drawBoard() {
@@ -105,9 +131,9 @@ public class Connect {
       System.out.print("| ");
       for (int j = 0; j < COLS; j++) {
         if (board[i][j] == 'X') {
-          System.out.print(Color.ANSI_GREEN + board[i][j] + Color.ANSI_RESET);
+          System.out.print(Color.ANSI_GREEN + userToken + Color.ANSI_RESET);
         } else if (board[i][j] == 'O') {
-          System.out.print(Color.ANSI_RED + board[i][j] + Color.ANSI_RESET);
+          System.out.print(Color.ANSI_RED + computerToken + Color.ANSI_RESET);
         } else {
           System.out.print(board[i][j]);
         }

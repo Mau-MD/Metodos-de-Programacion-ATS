@@ -21,7 +21,7 @@ public class Casino {
       System.out.println("2. Blackjack");
       System.out.println("3. Adivina adivinador");
       System.out.println("4. Conecta 4");
-      System.out.println("5. Salir");
+      System.out.println("5. Ir al menu principal");
 
       System.out.print(Color.ANSI_YELLOW + "\nIngresa tu opcion: " + Color.ANSI_RESET);
 
@@ -38,69 +38,101 @@ public class Casino {
         continue;
       }
 
-      float bet = Game.handleBet(user);
+      boolean repeatGame = true;
 
-      switch (choice) {
-        case 1:
-          Slot slot = new Slot(user, bet);
+      while (repeatGame) {
+        float bet = Game.handleBet(user);
 
-          Game.handleInstructions("Maquina tragamonedas",
-              "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes.");
+        switch (choice) {
+          case 1:
+            Slot slot = new Slot(user, bet);
 
-          while (slot.status != Game.GameStatus.COMPLETED) {
-            slot.play();
-          }
-          Util.clearConsole();
-          break;
-        case 2:
-          Blackjack blackjack = new Blackjack(user, bet);
+            Game.handleInstructions("Maquina tragamonedas",
+                "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes.");
 
-          Game.handleInstructions("Blackjack",
-              "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!");
-
-          while (blackjack.status != Game.GameStatus.COMPLETED) {
-            blackjack.play();
-            // Ask if the user wants to play another round
-            System.out.println("\n" + Color.ANSI_CYAN + "¿Deseas jugar otra ronda? (y/n)\n" + Color.ANSI_RESET);
-            String ans = scanner.next();
-            if (ans.equals("n")) {
-              blackjack.finishGame();
-              break;
+            while (slot.status != Game.GameStatus.COMPLETED) {
+              slot.play();
             }
-          }
-          Util.clearConsole();
-          break;
-        case 3:
-          Guess guess = new Guess(user, bet);
-          // Show Instructions
-          Game.handleInstructions("Adivina adivinador",
-              "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!");
+            Util.clearConsole();
+            break;
+          case 2:
+            Blackjack blackjack = new Blackjack(user, bet);
 
-          while (guess.status != Game.GameStatus.COMPLETED) {
-            // Ask for a number
-            System.out.println("\n" + Color.ANSI_CYAN + "Escribe un numero entre 1 y 100" + Color.ANSI_RESET);
-            int number = scanner.nextInt();
-            guess.play(number);
-          }
-          Util.clearConsole();
-          break;
-        case 4:
-          Connect connect4 = new Connect(user, bet);
-          // Show Instructions
-          Game.handleInstructions("Conecta 4",
-              "El juego consiste en un tablero de 7 columnas y 7 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno! Tu eres las 'X' y la computadora las 'O'");
+            Game.handleInstructions("Blackjack",
+                "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!");
 
-          connect4.drawBoard();
-          while (connect4.status != Game.GameStatus.COMPLETED) {
-            System.out
-                .println(Color.ANSI_CYAN + "\nIngresa la columna donde quieres colocar tu ficha" + Color.ANSI_RESET);
-            int column = scanner.nextInt();
-            connect4.play(column);
-          }
-          Util.clearConsole();
-          break;
+            while (blackjack.status != Game.GameStatus.COMPLETED) {
+              blackjack.play();
+              // Ask if the user wants to play another round
+              System.out.println("\n" + Color.ANSI_CYAN + "¿Deseas jugar otra ronda? (y/n)\n" + Color.ANSI_RESET);
+              String ans = scanner.next();
+              if (ans.equals("n")) {
+                blackjack.finishGame();
+                break;
+              }
+            }
+            Util.clearConsole();
+            break;
+          case 3:
+            Guess guess = new Guess(user, bet);
+            // Show Instructions
+            Game.handleInstructions("Adivina adivinador",
+                "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!");
+
+            while (guess.status != Game.GameStatus.COMPLETED) {
+              // Ask for a number
+              System.out.println("\n" + Color.ANSI_CYAN + "Escribe un numero entre 1 y 100" + Color.ANSI_RESET);
+              int number = scanner.nextInt();
+              guess.play(number);
+            }
+            Util.clearConsole();
+            break;
+          case 4:
+
+            Connect connect4 = new Connect(user, bet);
+            // Show Instructions
+            Game.handleInstructions("Conecta 4",
+                "El juego consiste en un tablero de 7 columnas y 7 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!");
+
+            // Ask the user to select its token
+            System.out.println("\n" + Color.ANSI_CYAN + "Elige tu ficha 1)♥ 2)♠\n" + Color.ANSI_RESET);
+            int token = scanner.nextInt();
+            connect4.setToken(token == 1);
+
+            connect4.init();
+            while (connect4.status != Game.GameStatus.COMPLETED) {
+              System.out
+                  .println(Color.ANSI_CYAN + "\nIngresa la columna donde quieres colocar tu ficha" + Color.ANSI_RESET);
+              int column = scanner.nextInt();
+              connect4.play(column);
+            }
+            Util.clearConsole();
+            break;
+        }
+
+        System.out.println("\n" + Color.ANSI_CYAN + "Que deseas hacer ahora?" + Color.ANSI_RESET);
+        System.out.println("1. Repetir el juego");
+        System.out.println("2. Cambiar de juego");
+        System.out.println("3. Ir al menu principal");
+
+        int repeatChoice = scanner.nextInt();
+        switch (repeatChoice) {
+          case 1:
+            repeatGame = true;
+            Util.clearConsole();
+            break;
+          case 2:
+            repeatGame = false;
+            Util.clearConsole();
+            break;
+          case 3:
+            repeatGame = false;
+            Util.clearConsole();
+            return;
+        }
       }
     }
+
   }
 
   public static void handleMenu(User user) {
