@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class Guess {
@@ -14,12 +15,24 @@ public class Guess {
   private float bet;
   private User user;
 
+  /**
+   * Constructor de AdivinaAdivinador. Genera el numero a adivinar.
+   * 
+   * @param user usuario que juega
+   * @param bet  monto apostado
+   */
   public Guess(User user, float bet) {
     this.bet = bet;
     this.user = user;
     numberToGuess = new Random().nextInt(MAX_NUMBER) + 1;
   }
 
+  /**
+   * Turno de AdivinaAdivinador. Recibe un numero y checa si es mayor, menor o
+   * igual al numero que se tiene que adivinar
+   * 
+   * @param number numero que se recibe por parte del usuario
+   */
   public void play(int number) {
 
     if (status == Game.GameStatus.NOT_STARTED) {
@@ -35,15 +48,19 @@ public class Guess {
 
     if (number == numberToGuess) {
       // Print tries
-      System.out.println("\n" + Color.ANSI_GREEN + "Adivinaste en " + tries + " intentos" + Color.ANSI_RESET);
+      System.out.println("\n" + Color.GREEN + "Adivinaste en " + tries + " intentos" + Color.RESET);
       finishGame();
     } else if (number > numberToGuess) {
-      System.out.println(Color.ANSI_YELLOW + "El numero es mas pequeño" + Color.ANSI_RESET);
+      System.out.println(Color.YELLOW + "El numero es mas pequeño" + Color.RESET);
     } else {
-      System.out.println(Color.ANSI_YELLOW + "El numero es mas grande" + Color.ANSI_RESET);
+      System.out.println(Color.YELLOW + "El numero es mas grande" + Color.RESET);
     }
   }
 
+  /**
+   * Finaliza el juego y checa cuantos turnos se hicieron para adivinar el numero.
+   * Se asigna una cantidad dependiendo de ello
+   */
   public void finishGame() {
     status = Game.GameStatus.COMPLETED;
     if (tries == 1) {

@@ -14,6 +14,12 @@ public class Slot {
   private final String[] words = new String[] {
       "cerezas", "naranjas", "ciruelas", "campanas", "melones", "barras" };
 
+  /**
+   * Constructor de Tragamonedas
+   * 
+   * @param user usuario que juega
+   * @param bet  monto apostado
+   */
   public Slot(User user, float bet) {
     this.bet = bet;
     this.user = user;
@@ -22,6 +28,10 @@ public class Slot {
   private final int DELAY_BETWEEN_WORDS_MS = 1000;
   private final int DELAY_BETWEEN_SLOTS_MS = 100;
 
+  /**
+   * Turno de Tragamonedas. Selecciona 3 palabras aleatorias y las muestra en
+   * pantalla
+   */
   public void play() {
 
     Util.clearConsole();
@@ -50,14 +60,14 @@ public class Slot {
 
       if (showRandomSloStopwatch.getElapsedTime() > DELAY_BETWEEN_SLOTS_MS) {
         Util.clearConsole();
-        System.out.print("| " + Color.ANSI_BLUE);
+        System.out.print("| " + Color.BLUE);
         for (int i = 0; i < 3; i++) {
           int index = random.nextInt(words.length);
           // If we have already shown this word, don't show it randomly
           if (i < wordsShown) {
             index = indexes[i];
           }
-          System.out.print(words[index] + Color.ANSI_RESET + " | " + Color.ANSI_BLUE);
+          System.out.print(words[index] + Color.RESET + " | " + Color.BLUE);
         }
         showRandomSloStopwatch.reset();
         showRandomSloStopwatch.start();
@@ -67,6 +77,10 @@ public class Slot {
     finishGame();
   }
 
+  /**
+   * Finaliza el juego y checa cuantas palabras coincidieron. Dependiendo de ello
+   * el usuario gana cierta cantiad de dinero
+   */
   public void finishGame() {
     status = Game.GameStatus.COMPLETED;
 

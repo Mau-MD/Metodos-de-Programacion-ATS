@@ -6,10 +6,19 @@ public class Connect {
 
   public final String NAME = "Conecta 4";
 
+  /**
+   * Modos normal (la computadora hace movimientos aleatorios) y dificil (la
+   * computadora hace el mejor movimiento)
+   */
   public enum ConnectMode {
     NORMAL, HARD
   }
 
+  /**
+   * Enum que representa el usuario, la computadora o ninguno.
+   * Util para poder saber quien gano o para determinar quien esta haciendo algun
+   * movimiento
+   */
   private enum Player {
     USER, COMPUTER, NONE
   }
@@ -27,12 +36,24 @@ public class Connect {
 
   private char[][] board = new char[ROWS][COLS];
 
+  /**
+   * Constructor de Connect4
+   * 
+   * @param user usuario que juega
+   * @param bet  monto apostado
+   */
   public Connect(User user, float bet) {
     this.bet = bet;
     this.user = user;
     initBoard();
   }
 
+  /**
+   * Contructor de Connect4
+   * 
+   * @param user usuario que juega
+   * @param bet  monto apostado
+   */
   public Connect(User user, float bet, ConnectMode mode) {
     this.mode = mode;
     this.bet = bet;
@@ -40,6 +61,11 @@ public class Connect {
     initBoard();
   }
 
+  /**
+   * Elige el token de usuario
+   * 
+   * @param heartToken si el usuario quiere el token de corazones
+   */
   public void setToken(boolean heartToken) {
     if (heartToken) {
       userToken = '♥';
@@ -50,12 +76,23 @@ public class Connect {
     }
   }
 
+  /**
+   * Inicializa el tablero con ' '
+   * La computadora realiza su primer movimiento
+   * Dibuja el tablero
+   */
   public void init() {
     int computerColumn = new Random().nextInt(COLS);
     placePiece(computerColumn, Player.COMPUTER);
     drawBoard();
   }
 
+  /**
+   * Pone una pieza en el tablero del usuario y de la computadora.
+   * 
+   * @param column columna donde se coloca la pieza del usuario
+   * 
+   */
   public void play(int column) {
     Random random = new Random();
 
@@ -96,6 +133,12 @@ public class Connect {
     drawBoard();
   }
 
+  /**
+   * Termina el juego agregando dinero al usuario si es que gano
+   * Tambien dibuja el estado final del tablero
+   * 
+   * @param winner quien gano
+   */
   public void finishGame(Player winner) {
     // Show final state
     drawBoard();
@@ -112,6 +155,12 @@ public class Connect {
 
   // We can have an array storing the number of pieces in each column to avoid the
   // for loop
+  /**
+   * Pone una pieza en el tablero dado el jugador y la columna
+   * 
+   * @param column columna donde se quiere poner el token
+   * @param player jugador que quiere poner la pieza (usuario o computadora)
+   */
   private void placePiece(int column, Player player) {
     for (int i = ROWS - 1; i >= 0; i--) {
       if (board[i][column] == ' ') {
@@ -125,15 +174,18 @@ public class Connect {
     }
   }
 
+  /**
+   * Dibuja en consola el estado actual del tablero
+   */
   public void drawBoard() {
     Util.clearConsole();
     for (int i = 0; i < ROWS; i++) {
       System.out.print("| ");
       for (int j = 0; j < COLS; j++) {
         if (board[i][j] == 'X') {
-          System.out.print(Color.ANSI_GREEN + userToken + Color.ANSI_RESET);
+          System.out.print(Color.GREEN + userToken + Color.RESET);
         } else if (board[i][j] == 'O') {
-          System.out.print(Color.ANSI_RED + computerToken + Color.ANSI_RESET);
+          System.out.print(Color.RED + computerToken + Color.RESET);
         } else {
           System.out.print(board[i][j]);
         }
@@ -157,6 +209,11 @@ public class Connect {
   // We use arrays to store previous positions. This way we can check for a winner
   // in O(nm) time. This will be in handy when we use the minimax algorithm
 
+  /**
+   * Chequea si hay un ganador dentro del estado actual del tablero
+   * 
+   * @return ganador o NONE
+   */
   private Player checkWinner() {
 
     int[] upperPiecesCount = new int[COLS];
@@ -243,6 +300,9 @@ public class Connect {
     return Player.NONE;
   }
 
+  /**
+   * Inicializa el tablero con valores vacios (' ')
+   */
   private void initBoard() {
     for (int i = 0; i < ROWS; i++) {
       for (int j = 0; j < COLS; j++) {
