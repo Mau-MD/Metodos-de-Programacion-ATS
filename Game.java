@@ -55,6 +55,7 @@ public class Game {
     System.out.println(Color.ANSI_CYAN + "Saldo Anterior: " + Color.ANSI_GREEN + oldBalance + Color.ANSI_RESET + "$");
     System.out.println(
         Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");
+    Util.pressAnyKeyToContinue();
   }
 
   public static void handleLose(User user, float amount) {
@@ -67,6 +68,7 @@ public class Game {
     System.out.println(
         Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");
     makeLoserSentence();
+    Util.pressAnyKeyToContinue();
   }
 
   public static void handleDraw() {
@@ -81,9 +83,7 @@ public class Game {
   public static void handleInstructions(String gameTitle, String gameInstructions) {
     System.out.println(Color.ANSI_YELLOW + "Instrucciones de " + gameTitle + Color.ANSI_RESET);
     System.out.println(Color.ANSI_CYAN + gameInstructions + Color.ANSI_RESET);
-    System.out.println("\nPresiona cualquier tecla para continuar");
-    Scanner scanner = new Scanner(System.in);
-    scanner.next();
+    Util.pressAnyKeyToContinue();
     ;
   }
 }

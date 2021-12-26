@@ -124,8 +124,7 @@ public class Casino {
           break;
         case 2:
           System.out.println("\nTu saldo es: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET);
-          System.out.println("Presiona cualquier tecla para confirmar...");
-          scanner.next();
+          Util.pressAnyKeyToContinue();
           Util.clearConsole();
           break;
         case 3:
