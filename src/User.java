@@ -1,3 +1,6 @@
+package src;
+
+import src.util.PlayHistory;
 
 /**
  * Clase que contiene la informacion del usuario

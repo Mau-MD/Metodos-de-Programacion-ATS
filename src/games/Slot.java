@@ -1,10 +1,18 @@
+package src.games;
+
 import java.util.Random;
+
+import src.util.Stopwatch;
+import src.util.Color;
+import src.util.ConsoleUtil;
+import src.Game;
+import src.User;
 
 public class Slot {
 
-  Game.GameStatus status = Game.GameStatus.NOT_STARTED;
-
   public final String NAME = "Tragamonedas";
+
+  public Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
   private float bet;
   private User user;
@@ -34,7 +42,7 @@ public class Slot {
    */
   public void play() {
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     Random random = new Random();
 
@@ -59,7 +67,7 @@ public class Slot {
       }
 
       if (showRandomSloStopwatch.getElapsedTime() > DELAY_BETWEEN_SLOTS_MS) {
-        Util.clearConsole();
+        ConsoleUtil.clearConsole();
         System.out.print("| " + Color.BLUE);
         for (int i = 0; i < 3; i++) {
           int index = random.nextInt(words.length);

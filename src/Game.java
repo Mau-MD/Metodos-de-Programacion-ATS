@@ -1,5 +1,10 @@
+package src;
+
 import java.util.Random;
 import java.util.Scanner;
+
+import src.util.Color;
+import src.util.ConsoleUtil;
 
 /**
  * Clase de utilidad que ayuda con toda la logica que comparten todos los juegos
@@ -11,6 +16,10 @@ public class Game {
 
   public static enum GameStatus {
     NOT_STARTED, PLAYING, COMPLETED
+  }
+
+  public enum WinLoseStatus {
+    WIN, LOSE, DRAW
   }
 
   /**
@@ -35,7 +44,7 @@ public class Game {
 
     while (amount > user.getBalance()) {
 
-      Util.clearConsole();
+      ConsoleUtil.clearConsole();
 
       System.out.println(Color.RED + "Error: No tienes suficiente dinero\n" + Color.RESET);
       System.out.println("Tu saldo es " + Color.GREEN + user.getBalance() + Color.RESET
@@ -50,7 +59,7 @@ public class Game {
       amount = scanner.nextInt();
     }
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     System.out.println("Apostaste: " + Color.GREEN + amount + Color.RESET + "$\n");
 
@@ -80,8 +89,8 @@ public class Game {
     System.out.println(Color.CYAN + "Saldo Anterior: " + Color.GREEN + oldBalance + Color.RESET + "$");
     System.out.println(
         Color.YELLOW + "Saldo Actual: " + Color.GREEN + user.getBalance() + Color.RESET + "$\n");
-    user.playHistory.addPlay(gameName, bet, PlayInfo.Status.WIN);
-    Util.pressAnyKeyToContinue();
+    user.playHistory.addPlay(gameName, bet, WinLoseStatus.WIN);
+    ConsoleUtil.pressAnyKeyToContinue();
   }
 
   /**
@@ -102,8 +111,8 @@ public class Game {
     System.out.println(
         Color.YELLOW + "Saldo Actual: " + Color.GREEN + user.getBalance() + Color.RESET + "$\n");
     makeLoserSentence();
-    user.playHistory.addPlay(gameName, bet, PlayInfo.Status.LOSE);
-    Util.pressAnyKeyToContinue();
+    user.playHistory.addPlay(gameName, bet, Game.WinLoseStatus.LOSE);
+    ConsoleUtil.pressAnyKeyToContinue();
   }
 
   /**
@@ -120,8 +129,8 @@ public class Game {
     System.out.println(Color.CYAN + "Saldo Anterior: " + Color.GREEN + oldBalance + Color.RESET + "$");
     System.out.println(
         Color.YELLOW + "Saldo Actual: " + Color.GREEN + user.getBalance() + Color.RESET + "$\n");
-    user.playHistory.addPlay(gameName, 0, PlayInfo.Status.DRAW);
-    Util.pressAnyKeyToContinue();
+    user.playHistory.addPlay(gameName, 0, WinLoseStatus.DRAW);
+    ConsoleUtil.pressAnyKeyToContinue();
   }
 
   /**
@@ -141,7 +150,7 @@ public class Game {
   public static void handleInstructions(String gameTitle, String gameInstructions) {
     System.out.println(Color.YELLOW + "Instrucciones de " + gameTitle + Color.RESET);
     System.out.println(Color.CYAN + gameInstructions + Color.RESET);
-    Util.pressAnyKeyToContinue();
+    ConsoleUtil.pressAnyKeyToContinue();
     ;
   }
 }

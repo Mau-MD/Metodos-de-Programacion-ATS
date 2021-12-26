@@ -1,8 +1,15 @@
+package src.games;
+
 import java.util.Random;
+
+import src.Game;
+import src.User;
+import src.util.Color;
+import src.util.ConsoleUtil;
 
 public class Blackjack {
 
-  Game.GameStatus status = Game.GameStatus.NOT_STARTED;
+  public Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
   public final String NAME = "Blackjack";
 
@@ -29,7 +36,7 @@ public class Blackjack {
    */
   public void play() {
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     if (status == Game.GameStatus.NOT_STARTED) {
       status = Game.GameStatus.PLAYING;

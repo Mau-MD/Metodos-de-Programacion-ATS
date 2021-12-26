@@ -1,5 +1,10 @@
+package src.games;
 
 import java.util.Random;
+
+import src.Game;
+import src.User;
+import src.util.Color;
 
 public class Guess {
 
@@ -7,7 +12,7 @@ public class Guess {
 
   public final String NAME = "Adivina Adivinador";
 
-  Game.GameStatus status = Game.GameStatus.NOT_STARTED;
+  public Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
   private int numberToGuess;
   private int tries = 0;

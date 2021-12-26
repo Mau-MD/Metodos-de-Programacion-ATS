@@ -1,7 +1,9 @@
+package src.util;
+
 /**
  * Clase de utilidad con metodos de consola
  */
-public class Util {
+public class ConsoleUtil {
 
   /**
    * Limpia la consola

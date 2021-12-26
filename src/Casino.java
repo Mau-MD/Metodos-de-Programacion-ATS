@@ -1,4 +1,14 @@
+package src;
+
+import src.util.Color;
+import src.util.ConsoleUtil;
+
 import java.util.Scanner;
+
+import src.games.Blackjack;
+import src.games.Connect;
+import src.games.Guess;
+import src.games.Slot;
 
 // TODO: Siempre preguntar si quiere volver a jugar
 
@@ -28,7 +38,7 @@ public class Casino {
 
       choice = scanner.nextInt();
 
-      Util.clearConsole();
+      ConsoleUtil.clearConsole();
 
       if (choice == 5)
         return;
@@ -54,7 +64,7 @@ public class Casino {
             while (slot.status != Game.GameStatus.COMPLETED) {
               slot.play();
             }
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
           case 2:
             Blackjack blackjack = new Blackjack(user, bet);
@@ -72,7 +82,7 @@ public class Casino {
                 break;
               }
             }
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
           case 3:
             Guess guess = new Guess(user, bet);
@@ -86,7 +96,7 @@ public class Casino {
               int number = scanner.nextInt();
               guess.play(number);
             }
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
           case 4:
 
@@ -107,7 +117,7 @@ public class Casino {
               int column = scanner.nextInt();
               connect4.play(column);
             }
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
         }
 
@@ -120,15 +130,15 @@ public class Casino {
         switch (repeatChoice) {
           case 1:
             repeatGame = true;
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
           case 2:
             repeatGame = false;
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             break;
           case 3:
             repeatGame = false;
-            Util.clearConsole();
+            ConsoleUtil.clearConsole();
             return;
         }
       }
@@ -144,7 +154,7 @@ public class Casino {
    */
   public static void handleMenu(User user) {
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     int choice = 0;
 
@@ -158,7 +168,7 @@ public class Casino {
       System.out.print(Color.YELLOW + "\nIngresa tu opcion: " + Color.RESET);
       choice = scanner.nextInt();
 
-      Util.clearConsole();
+      ConsoleUtil.clearConsole();
 
       switch (choice) {
         case 1:
@@ -166,13 +176,13 @@ public class Casino {
           break;
         case 2:
           System.out.println("\nTu saldo es: " + Color.GREEN + user.getBalance() + Color.RESET);
-          Util.pressAnyKeyToContinue();
-          Util.clearConsole();
+          ConsoleUtil.pressAnyKeyToContinue();
+          ConsoleUtil.clearConsole();
           break;
         case 3:
           user.playHistory.printPlayHistory(10);
-          Util.pressAnyKeyToContinue();
-          Util.clearConsole();
+          ConsoleUtil.pressAnyKeyToContinue();
+          ConsoleUtil.clearConsole();
           break;
         case 4:
           System.out.println("\nGracias por jugar!");
@@ -188,12 +198,12 @@ public class Casino {
 
   public static void main(String[] args) {
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     System.out.println(Color.BLUE + "Ingresa tu nombre de usuario:" + Color.RESET);
     String username = scanner.nextLine();
 
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
 
     System.out.println("----------------------------------------");
     System.out.println(Color.RED + "Bienvenido, " + username + " al Casino ATS!" + Color.RESET);

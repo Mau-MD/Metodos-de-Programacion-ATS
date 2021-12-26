@@ -1,8 +1,15 @@
+package src.games;
+
 import java.util.Random;
+
+import src.Game;
+import src.User;
+import src.util.Color;
+import src.util.ConsoleUtil;
 
 public class Connect {
 
-  Game.GameStatus status = Game.GameStatus.NOT_STARTED;
+  public Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
   public final String NAME = "Conecta 4";
 
@@ -178,7 +185,7 @@ public class Connect {
    * Dibuja en consola el estado actual del tablero
    */
   public void drawBoard() {
-    Util.clearConsole();
+    ConsoleUtil.clearConsole();
     for (int i = 0; i < ROWS; i++) {
       System.out.print("| ");
       for (int j = 0; j < COLS; j++) {

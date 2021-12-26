@@ -1,3 +1,5 @@
+package src.util;
+
 /**
  * Clase de utilidad que permite imprimir en colores en entornos UNIX. Si
  * detecta que el sistema es Windows, no imprime nada, asi evitando strings

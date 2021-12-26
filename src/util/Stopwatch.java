@@ -1,3 +1,5 @@
+package src.util;
+
 /**
  * Clase de utilidad de stopwatch
  */
