@@ -38,7 +38,7 @@ public class Slot {
     showWordStopwatch.start();
     showRandomSloStopwatch.start();
 
-    while (wordsShown < 3) {
+    while (wordsShown <= 3) {
 
       if (showWordStopwatch.getElapsedTime() > DELAY_BETWEEN_WORDS_MS) {
         wordsShown++;
@@ -69,9 +69,9 @@ public class Slot {
     status = Game.GameStatus.COMPLETED;
 
     if (indexes[0] == indexes[1] && indexes[1] == indexes[2]) {
-      Game.handleWin(user, bet * 3.0f, bet);
+      Game.handleWin(user, bet, 3);
     } else if (indexes[0] == indexes[1] || indexes[1] == indexes[2]) {
-      Game.handleWin(user, bet * 2.0f, bet);
+      Game.handleWin(user, bet, 2);
     } else {
       Game.handleLose(user, bet);
     }

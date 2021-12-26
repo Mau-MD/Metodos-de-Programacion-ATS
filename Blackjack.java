@@ -39,9 +39,9 @@ public class Blackjack {
       System.out.println("\n" + Color.ANSI_RED + "Te pasaste de 21" + computerPoints + Color.ANSI_RESET);
       Game.handleLose(user, bet);
     } else if (computerPoints > 21) {
-      Game.handleWin(user, bet * 2.0f, bet);
+      Game.handleWin(user, bet, 3);
     } else if (userPoints > computerPoints) {
-      Game.handleWin(user, bet * 2.0f, bet);
+      Game.handleWin(user, bet, 2);
     } else if (userPoints < computerPoints) {
       Game.handleLose(user, bet);
     } else {

@@ -43,13 +43,13 @@ public class Guess {
   public void finishGame() {
     status = Game.GameStatus.COMPLETED;
     if (tries == 1) {
-      Game.handleWin(user, bet * 3.0f, bet);
+      Game.handleWin(user, bet, 3);
     } else if (tries == 2) {
-      Game.handleWin(user, bet * 2.5f, bet);
+      Game.handleWin(user, bet, 2.5f);
     } else if (tries == 3) {
-      Game.handleWin(user, bet * 2.0f, bet);
+      Game.handleWin(user, bet, 2);
     } else if (tries >= 4 && tries <= 6) {
-      Game.handleWin(user, bet * 1.5f, bet);
+      Game.handleWin(user, bet, 1.5f);
     } else {
       Game.handleLose(user, bet);
     }

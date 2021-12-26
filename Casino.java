@@ -50,6 +50,7 @@ public class Casino {
           while (slot.status != Game.GameStatus.COMPLETED) {
             slot.play();
           }
+          Util.clearConsole();
           break;
         case 2:
           Blackjack blackjack = new Blackjack(user, bet);
@@ -67,6 +68,7 @@ public class Casino {
               break;
             }
           }
+          Util.clearConsole();
           break;
         case 3:
           Guess guess = new Guess(user, bet);
@@ -80,6 +82,7 @@ public class Casino {
             int number = scanner.nextInt();
             guess.play(number);
           }
+          Util.clearConsole();
           break;
         case 4:
           Connect connect4 = new Connect(user, bet);
@@ -92,6 +95,7 @@ public class Casino {
             int column = scanner.nextInt();
             connect4.play(column);
           }
+          Util.clearConsole();
           break;
       }
     }

@@ -18,7 +18,14 @@ public class Game {
     System.out.println(Color.ANSI_PURPLE + "Ingrese la cantidad que desea apostar: " + Color.ANSI_RESET);
     float amount = scanner.nextFloat();
 
-    while (amount > user.getBalance()) {
+    while (amount <= 0) {
+      System.out.println(Color.ANSI_RED + "No puedes apostar 0 o menos" + Color.ANSI_RESET);
+      amount = scanner.nextFloat();
+    }
+
+    while (amount > user.getBalance())
+
+    {
 
       Util.clearConsole();
 
@@ -43,15 +50,18 @@ public class Game {
   }
 
   // Old balance should be BEFORE the bet
-  public static void handleWin(User user, float amount, float initialBet) {
+  public static void handleWin(User user, float bet, float ratio) {
     // This doesnt work because we cant have 3 times the amount
-    float oldBalance = user.getLastBalance();
+    float oldBalance = user.getBalance();
 
-    user.addBalance(amount - initialBet);
+    float balanceToAdd = bet * ratio - bet;
+
+    user.addBalance(balanceToAdd);
 
     System.out
         .println(
-            Color.ANSI_GREEN + "\n\nFelicidades, has ganado " + Color.ANSI_GREEN + amount + Color.ANSI_RESET + "$");
+            Color.ANSI_GREEN + "\n\nFelicidades, has ganado " + Color.ANSI_GREEN + balanceToAdd + Color.ANSI_RESET
+                + "$");
     System.out.println(Color.ANSI_CYAN + "Saldo Anterior: " + Color.ANSI_GREEN + oldBalance + Color.ANSI_RESET + "$");
     System.out.println(
         Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");

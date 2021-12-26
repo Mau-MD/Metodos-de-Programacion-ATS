@@ -77,7 +77,7 @@ public class Connect {
   public void finishGame(Player winner) {
     status = Game.GameStatus.COMPLETED;
     if (winner == Player.USER) {
-      Game.handleWin(user, bet * 2.0f, bet);
+      Game.handleWin(user, bet, 2);
     }
     if (winner == Player.COMPUTER) {
       Game.handleLose(user, bet);
