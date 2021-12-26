@@ -4,6 +4,8 @@ public class Slot {
 
   Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
+  public final String NAME = "Tragamonedas";
+
   private float bet;
   private User user;
 
@@ -69,11 +71,11 @@ public class Slot {
     status = Game.GameStatus.COMPLETED;
 
     if (indexes[0] == indexes[1] && indexes[1] == indexes[2]) {
-      Game.handleWin(user, bet, 3);
+      Game.handleWin(user, bet, 3, NAME);
     } else if (indexes[0] == indexes[1] || indexes[1] == indexes[2]) {
-      Game.handleWin(user, bet, 2);
+      Game.handleWin(user, bet, 2, NAME);
     } else {
-      Game.handleLose(user, bet);
+      Game.handleLose(user, bet, NAME);
     }
   }
 

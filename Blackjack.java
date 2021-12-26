@@ -4,6 +4,8 @@ public class Blackjack {
 
   Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
+  public final String NAME = "Blackjack";
+
   private float bet;
   private User user;
 
@@ -16,6 +18,8 @@ public class Blackjack {
   }
 
   public void play() {
+
+    Util.clearConsole();
 
     if (status == Game.GameStatus.NOT_STARTED) {
       status = Game.GameStatus.PLAYING;
@@ -37,15 +41,15 @@ public class Blackjack {
     System.out.println("\n" + Color.ANSI_RED + "Puntaje de la computadora: " + computerPoints + Color.ANSI_RESET);
     if (userPoints > 21) {
       System.out.println("\n" + Color.ANSI_RED + "Te pasaste de 21" + computerPoints + Color.ANSI_RESET);
-      Game.handleLose(user, bet);
+      Game.handleLose(user, bet, NAME);
     } else if (computerPoints > 21) {
-      Game.handleWin(user, bet, 3);
+      Game.handleWin(user, bet, 2, NAME);
     } else if (userPoints > computerPoints) {
-      Game.handleWin(user, bet, 2);
+      Game.handleWin(user, bet, 2, NAME);
     } else if (userPoints < computerPoints) {
-      Game.handleLose(user, bet);
+      Game.handleLose(user, bet, NAME);
     } else {
-      Game.handleDraw();
+      Game.handleDraw(user, NAME);
     }
   }
 

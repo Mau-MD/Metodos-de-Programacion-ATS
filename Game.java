@@ -50,7 +50,7 @@ public class Game {
   }
 
   // Old balance should be BEFORE the bet
-  public static void handleWin(User user, float bet, float ratio) {
+  public static void handleWin(User user, float bet, float ratio, String gameName) {
     // This doesnt work because we cant have 3 times the amount
     float oldBalance = user.getBalance();
 
@@ -65,24 +65,33 @@ public class Game {
     System.out.println(Color.ANSI_CYAN + "Saldo Anterior: " + Color.ANSI_GREEN + oldBalance + Color.ANSI_RESET + "$");
     System.out.println(
         Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");
+    user.playHistory.addPlay(gameName, bet, PlayInfo.Status.WIN);
     Util.pressAnyKeyToContinue();
   }
 
-  public static void handleLose(User user, float amount) {
-    float oldBalance = user.getLastBalance();
+  public static void handleLose(User user, float bet, String gameName) {
+    float oldBalance = user.getBalance();
 
-    user.removeBalance(amount);
+    user.removeBalance(bet);
 
-    System.out.println(Color.ANSI_RED + "\n\nLo siento, has perdido " + amount + Color.ANSI_RESET + "$");
+    System.out.println(Color.ANSI_RED + "\n\nLo siento, has perdido " + bet + Color.ANSI_RESET + "$");
     System.out.println(Color.ANSI_CYAN + "Saldo Anterior: " + Color.ANSI_GREEN + oldBalance + Color.ANSI_RESET + "$");
     System.out.println(
         Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");
     makeLoserSentence();
+    user.playHistory.addPlay(gameName, bet, PlayInfo.Status.LOSE);
     Util.pressAnyKeyToContinue();
   }
 
-  public static void handleDraw() {
-    System.out.println(Color.ANSI_YELLOW + "Empate!" + Color.ANSI_RESET);
+  public static void handleDraw(User user, String gameName) {
+
+    float oldBalance = user.getBalance();
+    System.out.println(Color.ANSI_YELLOW + "\nEmpate!" + Color.ANSI_RESET);
+    System.out.println(Color.ANSI_CYAN + "Saldo Anterior: " + Color.ANSI_GREEN + oldBalance + Color.ANSI_RESET + "$");
+    System.out.println(
+        Color.ANSI_YELLOW + "Saldo Actual: " + Color.ANSI_GREEN + user.getBalance() + Color.ANSI_RESET + "$\n");
+    user.playHistory.addPlay(gameName, 0, PlayInfo.Status.DRAW);
+    Util.pressAnyKeyToContinue();
   }
 
   public static void makeLoserSentence() {

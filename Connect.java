@@ -4,6 +4,8 @@ public class Connect {
 
   Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
+  public final String NAME = "Conecta 4";
+
   public enum ConnectMode {
     NORMAL, HARD
   }
@@ -37,6 +39,8 @@ public class Connect {
 
   public void play(int column) {
     Random random = new Random();
+
+    column -= 1; // Add 1 to column to match the array index
 
     if (column > COLS || column < 0) {
       System.out.println("Columna invalida");
@@ -77,10 +81,10 @@ public class Connect {
   public void finishGame(Player winner) {
     status = Game.GameStatus.COMPLETED;
     if (winner == Player.USER) {
-      Game.handleWin(user, bet, 2);
+      Game.handleWin(user, bet, 2, NAME);
     }
     if (winner == Player.COMPUTER) {
-      Game.handleLose(user, bet);
+      Game.handleLose(user, bet, NAME);
     }
   }
 
@@ -95,13 +99,32 @@ public class Connect {
     }
   }
 
-  private void drawBoard() {
+  public void drawBoard() {
+    Util.clearConsole();
     for (int i = 0; i < ROWS; i++) {
+      System.out.print("| ");
       for (int j = 0; j < COLS; j++) {
-        System.out.print(board[i][j]);
+        if (board[i][j] == 'X') {
+          System.out.print(Color.ANSI_GREEN + board[i][j] + Color.ANSI_RESET);
+        } else if (board[i][j] == 'O') {
+          System.out.print(Color.ANSI_RED + board[i][j] + Color.ANSI_RESET);
+        } else {
+          System.out.print(board[i][j]);
+        }
+        System.out.print(" | ");
       }
       System.out.print('\n');
     }
+    System.out.print('\n');
+
+    // Print guide col numbers
+    System.out.print("| ");
+    for (int i = 0; i < COLS; i++) {
+      System.out.print(i + 1);
+      System.out.print(" | ");
+    }
+    System.out.print('\n');
+
   }
 
   // We can use a simple for to check if there is 4 pieces in a row horizontally

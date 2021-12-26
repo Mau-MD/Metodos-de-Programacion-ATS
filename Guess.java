@@ -4,6 +4,8 @@ public class Guess {
 
   private final int MAX_NUMBER = 100;
 
+  public final String NAME = "Adivina Adivinador";
+
   Game.GameStatus status = Game.GameStatus.NOT_STARTED;
 
   private int numberToGuess;
@@ -32,26 +34,28 @@ public class Guess {
     tries++;
 
     if (number == numberToGuess) {
+      // Print tries
+      System.out.println("\n" + Color.ANSI_GREEN + "Adivinaste en " + tries + " intentos" + Color.ANSI_RESET);
       finishGame();
     } else if (number > numberToGuess) {
-      System.out.println("El numero es mas pequeño");
+      System.out.println(Color.ANSI_YELLOW + "El numero es mas pequeño" + Color.ANSI_RESET);
     } else {
-      System.out.println("El numero es mas grande");
+      System.out.println(Color.ANSI_YELLOW + "El numero es mas grande" + Color.ANSI_RESET);
     }
   }
 
   public void finishGame() {
     status = Game.GameStatus.COMPLETED;
     if (tries == 1) {
-      Game.handleWin(user, bet, 3);
+      Game.handleWin(user, bet, 3, NAME);
     } else if (tries == 2) {
-      Game.handleWin(user, bet, 2.5f);
+      Game.handleWin(user, bet, 2.5f, NAME);
     } else if (tries == 3) {
-      Game.handleWin(user, bet, 2);
+      Game.handleWin(user, bet, 2, NAME);
     } else if (tries >= 4 && tries <= 6) {
-      Game.handleWin(user, bet, 1.5f);
+      Game.handleWin(user, bet, 1.5f, NAME);
     } else {
-      Game.handleLose(user, bet);
+      Game.handleLose(user, bet, NAME);
     }
   }
 

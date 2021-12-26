@@ -88,10 +88,12 @@ public class Casino {
           Connect connect4 = new Connect(user, bet);
           // Show Instructions
           Game.handleInstructions("Conecta 4",
-              "El juego consiste en un tablero de 7 columnas y 6 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!");
+              "El juego consiste en un tablero de 7 columnas y 7 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno! Tu eres las 'X' y la computadora las 'O'");
 
+          connect4.drawBoard();
           while (connect4.status != Game.GameStatus.COMPLETED) {
-            System.out.println("Ingresa la columna donde quieres colocar tu ficha");
+            System.out
+                .println(Color.ANSI_CYAN + "\nIngresa la columna donde quieres colocar tu ficha" + Color.ANSI_RESET);
             int column = scanner.nextInt();
             connect4.play(column);
           }
@@ -114,8 +116,9 @@ public class Casino {
         System.out.println(Color.ANSI_RED + "La opcion que elegiste es invalida" + Color.ANSI_RESET);
       System.out.println("\n" + Color.ANSI_CYAN + "Elige la opcion que desees\n" + Color.ANSI_RESET);
       System.out.println("1. Jugar");
-      System.out.println("2. Checar saldo");
-      System.out.println("3. Salir");
+      System.out.println("2. Consultar saldo");
+      System.out.println("3. Ver historial de juegos");
+      System.out.println("4. Salir");
       System.out.print(Color.ANSI_YELLOW + "\nIngresa tu opcion: " + Color.ANSI_RESET);
       choice = scanner.nextInt();
 
@@ -132,6 +135,11 @@ public class Casino {
           Util.clearConsole();
           break;
         case 3:
+          user.playHistory.printPlayHistory(10);
+          Util.pressAnyKeyToContinue();
+          Util.clearConsole();
+          break;
+        case 4:
           System.out.println("\nGracias por jugar!");
           System.exit(0);
           scanner.close();
