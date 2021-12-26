@@ -78,6 +78,18 @@ public class Casino {
             guess.play(number);
           }
           break;
+        case 4:
+          Connect connect4 = new Connect(user, bet);
+          // Show Instructions
+          System.out.println("\n" + Color.ANSI_CYAN
+              + "El juego consiste en un tablero de 7 columnas y 6 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!"
+              + Color.ANSI_RESET);
+          while (connect4.status != Game.GameStatus.COMPLETED) {
+            System.out.println("Ingresa la columna donde quieres colocar tu ficha");
+            int column = scanner.nextInt();
+            connect4.play(column);
+          }
+          break;
       }
     }
   }
