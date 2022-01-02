@@ -10,8 +10,6 @@ import src.games.Connect;
 import src.games.Guess;
 import src.games.Slot;
 
-// TODO: Siempre preguntar si quiere volver a jugar
-
 public class Casino {
 
   static Scanner scanner = new Scanner(System.in);
@@ -28,13 +26,13 @@ public class Casino {
     while (true) {
 
       System.out.println("\n" + Color.CYAN + "Elige el juego que desees\n" + Color.RESET);
-      System.out.println("1. Maquina tragamonedas");
+      System.out.println("1. Máquina tragamonedas");
       System.out.println("2. Blackjack");
       System.out.println("3. Adivina adivinador");
       System.out.println("4. Conecta 4");
-      System.out.println("5. Ir al menu principal");
+      System.out.println("5. Ir al menú principal");
 
-      System.out.print(Color.YELLOW + "\nIngresa tu opcion: " + Color.RESET);
+      System.out.print(Color.YELLOW + "\nIngresa tu opción: " + Color.RESET);
 
       choice = scanner.nextInt();
 
@@ -59,7 +57,7 @@ public class Casino {
             Slot slot = new Slot(user, bet);
 
             Game.handleInstructions(slot.NAME,
-                "El programa mostrara 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes.");
+                "El programa mostrará 3 palabras aleatorias. Si 3 coinciden, ganas el triple, si dos coinciden, ganas el doble. Si ninguna coincide, pierdes.");
 
             while (slot.status != Game.GameStatus.COMPLETED) {
               slot.play();
@@ -70,7 +68,7 @@ public class Casino {
             Blackjack blackjack = new Blackjack(user, bet);
 
             Game.handleInstructions(blackjack.NAME,
-                "Cada turno la computadora y tu tiraran de dos dados, tu puntaje sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!");
+                "Cada turno la computadora y tú tirarán de dos dados, tu puntajé sera visible mientras que el de la computadora no. Cuando lo desees, puedes finalizar el juego y si tienes mayor puntaje que la computadora sin pasar de 21, ¡ganas!");
 
             while (blackjack.status != Game.GameStatus.COMPLETED) {
               blackjack.play();
@@ -88,11 +86,11 @@ public class Casino {
             Guess guess = new Guess(user, bet);
             // Show Instructions
             Game.handleInstructions(guess.NAME,
-                "Tienes que adivinar el numero en el que estoy pensando. Entre menos intentos, ¡mas recompensa!");
+                "Tienes que adivinar el número en el que estoy pensando. Entre menos intentos, ¡más recompensa!");
 
             while (guess.status != Game.GameStatus.COMPLETED) {
               // Ask for a number
-              System.out.println("\n" + Color.CYAN + "Escribe un numero entre 1 y 100" + Color.RESET);
+              System.out.println("\n" + Color.CYAN + "Escribe un número entre 1 y 100" + Color.RESET);
               int number = scanner.nextInt();
               guess.play(number);
             }
@@ -103,7 +101,7 @@ public class Casino {
             Connect connect4 = new Connect(user, bet);
             // Show Instructions
             Game.handleInstructions(connect4.NAME,
-                "El juego consiste en un tablero de 7 columnas y 7 filas. El objetivo es conectar 4 fichas en una linea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!");
+                "El juego consiste en un tablero de 7 columnas y 7 filas. El objetivo es conectar 4 fichas en una línea horizontal, vertical o diagonal. ¡Gana el que consiga 4 en el primer turno!");
 
             // Ask the user to select its token
             System.out.println("\n" + Color.CYAN + "Elige tu ficha 1)♥ 2)♠\n" + Color.RESET);
@@ -124,7 +122,7 @@ public class Casino {
         System.out.println("\n" + Color.CYAN + "Que deseas hacer ahora?" + Color.RESET);
         System.out.println("1. Repetir el juego");
         System.out.println("2. Cambiar de juego");
-        System.out.println("3. Ir al menu principal");
+        System.out.println("3. Ir al menú principal");
 
         int repeatChoice = scanner.nextInt();
         switch (repeatChoice) {
@@ -160,12 +158,12 @@ public class Casino {
 
     while (true) {
 
-      System.out.println("\n" + Color.CYAN + "Elige la opcion que desees\n" + Color.RESET);
+      System.out.println("\n" + Color.CYAN + "Elige la opción que desees\n" + Color.RESET);
       System.out.println("1. Jugar");
       System.out.println("2. Consultar saldo");
       System.out.println("3. Ver historial de juegos");
       System.out.println("4. Salir");
-      System.out.print(Color.YELLOW + "\nIngresa tu opcion: " + Color.RESET);
+      System.out.print(Color.YELLOW + "\nIngresa tu opción: " + Color.RESET);
       choice = scanner.nextInt();
 
       ConsoleUtil.clearConsole();
@@ -186,11 +184,11 @@ public class Casino {
           break;
         case 4:
           System.out.println("\nGracias por jugar!");
-          System.exit(0);
           scanner.close();
+          System.exit(0);
           break;
         default:
-          System.out.println(Color.RED + "La opcion que elegiste es invalida" + Color.RESET);
+          System.out.println(Color.RED + "La opción que elegiste es inválida" + Color.RESET);
           break;
       }
     }

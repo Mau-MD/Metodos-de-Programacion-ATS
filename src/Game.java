@@ -11,8 +11,8 @@ import src.util.ConsoleUtil;
  */
 public class Game {
 
-  private static final String[] loserStrings = new String[] { "Jaja, perdiste.", "Loser.", "Te gano un programa...",
-      "Hasta mi hermanita de 3 años juega mejor que tú", "Demasiado facil..." };
+  private static final String[] loserStrings = new String[] { "Jaja, perdiste.", "Loser.", "Te ganó un programa...",
+      "Hasta mi hermanita de 3 años juega mejor que tú", "Demasiado fácil..." };
 
   public static enum GameStatus {
     NOT_STARTED, PLAYING, COMPLETED
@@ -49,13 +49,13 @@ public class Game {
       System.out.println(Color.RED + "Error: No tienes suficiente dinero\n" + Color.RESET);
       System.out.println("Tu saldo es " + Color.GREEN + user.getBalance() + Color.RESET
           + "$ y quisite apostar " + Color.GREEN + amount + Color.RESET + "$");
-      System.out.println(Color.BLUE + "Deposita mas dinero para poder continuar: " + Color.RESET);
+      System.out.println(Color.BLUE + "Deposita más dinero para poder continuar: " + Color.RESET);
       float depositAmount = scanner.nextFloat();
       user.addBalance(depositAmount);
 
       System.out.println("\nTu nuevo saldo es de " + Color.GREEN + user.getBalance() + Color.RESET + "$");
       System.out.println(
-          Color.PURPLE + "Ahora si. Ingrese nuevamente la cantidad que desea apostar: " + Color.RESET);
+          Color.PURPLE + "Ahora sí. Ingrese nuevamente la cantidad que desea apostar: " + Color.RESET);
       amount = scanner.nextInt();
     }
 

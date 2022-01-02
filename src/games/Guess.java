@@ -56,9 +56,9 @@ public class Guess {
       System.out.println("\n" + Color.GREEN + "Adivinaste en " + tries + " intentos" + Color.RESET);
       finishGame();
     } else if (number > numberToGuess) {
-      System.out.println(Color.YELLOW + "El numero es mas pequeño" + Color.RESET);
+      System.out.println(Color.YELLOW + "El numero es más pequeño" + Color.RESET);
     } else {
-      System.out.println(Color.YELLOW + "El numero es mas grande" + Color.RESET);
+      System.out.println(Color.YELLOW + "El numero es más grande" + Color.RESET);
     }
   }
 
