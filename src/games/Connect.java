@@ -39,8 +39,6 @@ public class Connect {
   private char userToken = '♥';
   private char computerToken = '♠';
 
-  private ConnectMode mode = ConnectMode.NORMAL;
-
   private char[][] board = new char[ROWS][COLS];
 
   /**
@@ -50,19 +48,6 @@ public class Connect {
    * @param bet  monto apostado
    */
   public Connect(User user, float bet) {
-    this.bet = bet;
-    this.user = user;
-    initBoard();
-  }
-
-  /**
-   * Contructor de Connect4
-   * 
-   * @param user usuario que juega
-   * @param bet  monto apostado
-   */
-  public Connect(User user, float bet, ConnectMode mode) {
-    this.mode = mode;
     this.bet = bet;
     this.user = user;
     initBoard();
