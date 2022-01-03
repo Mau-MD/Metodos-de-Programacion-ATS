@@ -311,3 +311,11 @@ public class User {
 ```
 
 Cuenta también con funciones para accesar y modificar cada una de ellas.
+
+---
+
+<!-- class: revert -->
+
+### Ahora si lo divertido...
+
+# Las clases de los juegos
