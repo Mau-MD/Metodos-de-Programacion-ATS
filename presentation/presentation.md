@@ -82,21 +82,21 @@ pre {
 ```java
       ...
 
-      choice = scanner.nextInt();
+      choice = scanner.nextint();
 
-      ConsoleUtil.clearConsole();
+      consoleutil.clearconsole();
 
       switch (choice) {
         case 1:
-          handleGame(user);
+          handlegame(user);
           break;
         case 2:
-          System.out.println("\nTu saldo es: " + Color.GREEN + user.getBalance() + Color.RESET);
-          ConsoleUtil.pressAnyKeyToContinue();
-          ConsoleUtil.clearConsole();
+          system.out.println("\ntu saldo es: " + color.green + user.getbalance() + color.reset);
+          consoleutil.pressanykeytocontinue();
+          consoleutil.clearconsole();
           break;
         case 3:
-          user.playHistory.printPlayHistory(10);
+          user.playhistory.printPlayHistory(10);
           ConsoleUtil.pressAnyKeyToContinue();
           ConsoleUtil.clearConsole();
           break;
@@ -319,3 +319,384 @@ Cuenta también con funciones para accesar y modificar cada una de ellas.
 ### Ahora si lo divertido...
 
 # Las clases de los juegos
+
+---
+
+### Antes de iniciar...
+
+Todas las clases de Juegos comparten estos atributos:
+
+```java
+public final String NAME = "Adivina Adivinador";
+
+public Game.GameStatus status = Game.GameStatus.NOT_STARTED;
+
+private float bet;
+private User user;
+```
+
+---
+
+# Clase `Guess.java`
+
+#### (Adivina Adivinador)
+
+---
+
+# Constructor y atributos
+
+```java
+private int numberToGuess;
+private int tries = 0;
+
+public Guess(User user, float bet) {
+  this.bet = bet;
+  this.user = user;
+  numberToGuess = new Random().nextInt(MAX_NUMBER) + 1;
+}
+```
+
+---
+
+# Función `play()`
+
+```java
+
+tries++;
+if (number == numberToGuess) {
+  // Print tries
+  System.out.println("\nAdivinaste en " + tries + " intentos");
+  finishGame();
+} else if (number > numberToGuess) {
+  System.out.println("El numero es más pequeño");
+} else {
+  System.out.println("El numero es más grande");
+}
+```
+
+---
+
+# Función `finishGame()`
+
+```java
+public void finishGame() {
+  status = Game.GameStatus.COMPLETED;
+  if (tries == 1) {
+    Game.handleWin(user, bet, 3, NAME);
+  } else if (tries == 2) {
+    Game.handleWin(user, bet, 2.5f, NAME);
+  } else if (tries == 3) {
+    Game.handleWin(user, bet, 2, NAME);
+  } else if (tries >= 4 && tries <= 6) {
+    Game.handleWin(user, bet, 1.5f, NAME);
+  } else {
+    Game.handleLose(user, bet, NAME);
+  }
+}
+```
+
+---
+
+# Clase `Blackjack.java`
+
+---
+
+# Constructor y atributos
+
+```java
+private int computerPoints = 0;
+private int userPoints = 0;
+
+public Blackjack(User user, float bet) {
+  this.bet = bet;
+  this.user = user;
+}
+```
+
+---
+
+## Función `play()` y `throwDices()`
+
+```java
+public void play() {
+  computerPoints += throwDices();
+  userPoints += throwDices();
+  System.out.println("Tu puntaje: " + userPoints);
+}
+
+private int throwDices() {
+  Random random = new Random();
+  int dice1 = random.nextInt(6) + 1;
+  int dice2 = random.nextInt(6) + 1;
+  return dice1 + dice2;
+}
+```
+
+---
+
+# Función `finishGame()`
+
+```java
+// Show computer points
+System.out.println("Puntaje de la computadora: " + computerPoints);
+if (userPoints > 21) {
+  System.out.println("Te pasaste de 21" + computerPoints);
+  Game.handleLose(user, bet, NAME);
+} else if (computerPoints > 21) {
+  Game.handleWin(user, bet, 2, NAME);
+} else if (userPoints > computerPoints) {
+  Game.handleWin(user, bet, 2, NAME);
+} else if (userPoints < computerPoints) {
+  Game.handleLose(user, bet, NAME);
+} else {
+  Game.handleDraw(user, NAME);
+}
+```
+
+---
+
+# Clase `Slot.java`
+
+### (Tragamonedas)
+
+---
+
+# Constructor y atributos
+
+```java
+private int[] indexes = new int[3];
+
+private final int DELAY_BETWEEN_WORDS_MS = 1000;
+private final int DELAY_BETWEEN_SLOTS_MS = 100;
+
+private final String[] words = new String[]
+{
+    "cerezas", "naranjas", "ciruelas",
+    "campanas", "melones", "barras"
+};
+
+public Slot(User user, float bet) {
+  this.bet = bet;
+  this.user = user;
+}
+```
+
+---
+
+### Quise hacer un poco más interesante...
+
+```java
+Random random = new Random();
+
+indexes[0] = random.nextInt(words.length);
+indexes[1] = random.nextInt(words.length);
+indexes[2] = random.nextInt(words.length);
+
+int wordsShown = 0;
+
+Stopwatch showWordStopwatch = new Stopwatch();
+Stopwatch showRandomSloStopwatch = new Stopwatch();
+
+showWordStopwatch.start();
+showRandomSloStopwatch.start();
+```
+
+---
+
+<style scoped>
+pre {
+  font-size: 22px;
+}
+</style>
+
+```java
+while (wordsShown <= 3) {
+
+  if (showWordStopwatch.getElapsedTime() > DELAY_BETWEEN_WORDS_MS) {
+    wordsShown++;
+    showWordStopwatch.reset();
+    showWordStopwatch.start();
+  }
+
+  if (showRandomSloStopwatch.getElapsedTime() > DELAY_BETWEEN_SLOTS_MS) {
+    ConsoleUtil.clearConsole();
+    System.out.print("| " + Color.BLUE);
+    for (int i = 0; i < 3; i++) {
+      int index = random.nextInt(words.length);
+      // If we have already shown this word, don't show it randomly
+      if (i < wordsShown) {
+        index = indexes[i];
+      }
+      System.out.print(words[index] + Color.RESET + " | " + Color.BLUE);
+    }
+    showRandomSloStopwatch.reset();
+    showRandomSloStopwatch.start();
+  }
+}
+```
+
+---
+
+# Función `finishGame()`
+
+```java
+if (indexes[0] == indexes[1] && indexes[1] == indexes[2]) {
+  Game.handleWin(user, bet, 3, NAME);
+} else if (indexes[0] == indexes[1] || indexes[1] == indexes[2]) {
+  Game.handleWin(user, bet, 2, NAME);
+} else {
+  Game.handleLose(user, bet, NAME);
+}
+```
+
+---
+
+# Clase `Connect.java`
+
+### (Conecta 4)
+
+---
+
+Constructor y atributos
+
+```java
+private enum Player {
+  USER, COMPUTER, NONE
+}
+
+private final int ROWS = 7;
+private final int COLS = 7;
+
+private char userToken = '♥';
+private char computerToken = '♠';
+
+private char[][] board = new char[ROWS][COLS];
+
+public Connect(User user, float bet) {
+  this.bet = bet;
+  this.user = user;
+  initBoard();
+}
+```
+
+---
+
+# Función `setToken()`
+
+```java
+public void setToken(boolean heartToken) {
+  if (heartToken) {
+    userToken = '♥';
+    computerToken = '♠';
+  } else {
+    userToken = '♠';
+    computerToken = '♥';
+  }
+}
+```
+
+---
+
+# Función `init()`
+
+```java
+public void init() {
+  int computerColumn = new Random().nextInt(COLS);
+  placePiece(computerColumn, Player.COMPUTER);
+  drawBoard();
+}
+```
+
+---
+
+# Función `play()`
+
+```java
+Random random = new Random();
+
+column -= 1;
+
+if (column > COLS || column < 0) {
+  System.out.println("Columna invalida");
+  return;
+}
+```
+
+---
+
+```java
+placePiece(column, Player.USER);
+
+if (status == Game.GameStatus.COMPLETED)
+  return;
+
+int computerColumn = random.nextInt(COLS);
+while (board[0][computerColumn] != ' ') {
+  computerColumn = random.nextInt(COLS);
+}
+
+placePiece(computerColumn, Player.COMPUTER);
+
+drawBoard();
+```
+
+---
+
+# Función `placePiece()`
+
+```java
+for (int i = ROWS - 1; i >= 0; i--) {
+  if (board[i][column] == ' ') {
+    board[i][column] = player == Player.USER ? 'X' : 'O';
+    break;
+  }
+}
+Player winner = checkWinner();
+if (winner != Player.NONE) {
+  finishGame(winner);
+}
+```
+
+---
+
+# Función `checkWinner()`
+
+```java
+int[] upperPiecesCount = new int[COLS];
+int[] leftDiagonalPiecesCount = new int[COLS];
+int[] rightDiagonalPiecesCount = new int[COLS];
+
+for (int i = 0; i < COLS; i++) {
+  upperPiecesCount[i] = 0;
+  leftDiagonalPiecesCount[i] = 0;
+  rightDiagonalPiecesCount[i] = 0;
+}
+
+int consecutivePieces = 1;
+```
+
+---
+
+```java
+if (board[i][j] == ' ') {
+  consecutivePieces = 0;
+  upperPiecesCount[j] = 0;
+  if (j > 0)
+    leftDiagonalPiecesCount[j - 1] = 0;
+  if (j < COLS - 1)
+    rightDiagonalPiecesCount[j + 1] = 0;
+  continue;
+}
+
+if (i == 0) {
+  upperPiecesCount[j] = 1;
+  if (j > 0)
+    leftDiagonalPiecesCount[j - 1] = 1;
+  if (j < COLS - 1)
+    rightDiagonalPiecesCount[j + 1] = 1;
+}
+
+if (j == 0) {
+  consecutivePieces = 1;
+}
+```
