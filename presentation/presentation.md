@@ -700,3 +700,78 @@ if (j == 0) {
   consecutivePieces = 1;
 }
 ```
+
+---
+
+```java
+if (j > 0 && board[i][j - 1] == board[i][j]) {
+  consecutivePieces++;
+} else {
+  consecutivePieces = 1;
+}
+
+// Check vertical
+if (i > 0 && board[i - 1][j] == board[i][j]) {
+  upperPiecesCount[j]++;
+} else {
+  upperPiecesCount[j] = 1;
+}
+
+// Check left diagonal
+if (i > 0 && j > 0) {
+  if (board[i - 1][j - 1] == board[i][j]) {
+    leftDiagonalPiecesCount[j - 1]++;
+  } else {
+    leftDiagonalPiecesCount[j - 1] = 1;
+  }
+}
+```
+
+---
+
+```java
+// Check right diagonal
+if (i > 0 && j < COLS - 1) {
+  if (board[i - 1][j + 1] == board[i][j]) {
+    rightDiagonalPiecesCount[j + 1]++;
+  } else {
+    rightDiagonalPiecesCount[j + 1] = 1; // Aqui
+  }
+}
+
+// Any 4 are consecutives
+if (consecutivePieces == 4 || upperPiecesCount[j] == 4 ||
+ (j > 0 && leftDiagonalPiecesCount[j - 1] == 4) ||
+ (j < COLS - 1 && rightDiagonalPiecesCount[j + 1] == 4)) {
+  return board[i][j] == 'X' ? Player.USER : Player.COMPUTER;
+}
+```
+
+---
+
+### Función `drawBoard()`
+
+```java
+ConsoleUtil.clearConsole();
+for (int i = 0; i < ROWS; i++) {
+  System.out.print("| ");
+  for (int j = 0; j < COLS; j++) {
+    if (board[i][j] == 'X') {
+      System.out.print(Color.GREEN + userToken + Color.RESET);
+    } else if (board[i][j] == 'O') {
+      System.out.print(Color.RED + computerToken + Color.RESET);
+    } else {
+      System.out.print(board[i][j]);
+    }
+    System.out.print(" | ");
+  }
+  System.out.print('\n');
+}
+System.out.print('\n');
+```
+
+---
+
+<!-- class: invert -->
+
+# Hora de un demo:)
